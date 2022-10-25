@@ -1,18 +1,29 @@
 import Testimonials from './components/Testimonials';
 import "./App.css"
+import {BrowserRouter, Route , Routes } from "react-router-dom"
+import Home from "./pages/home"
+import Login from "./pages/login"
+import Signup from "./pages/signup"
+import Header from "./components/Header"
 
 const App = () => {
 
   
   return (
-    <div style={{padding: 10}}>
+    <BrowserRouter><div style={{padding: 10}}>
+      <Routes>
+        <Route path="/home" element={<Home/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/signup" element={<Signup/>}/>
+      </Routes>
+      <Header/>
 
       <Testimonials 
       image="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&w=800" 
       name="Thomas"
       lastName="Shelby" 
       content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. "
-      star={[0,1,2,3,4]}
+      star={[0,1,]}
       />
 
       <Testimonials 
@@ -32,6 +43,7 @@ const App = () => {
       star={[0,1,2,3,4]}
       />
     </div>
+    </BrowserRouter>
   )
 }
 
