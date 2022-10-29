@@ -1,9 +1,9 @@
-import star from "../asset/star.png"
+// import star from "../asset/star.png"
 
-const Star = () => {
-    return (
-      <img src={star} alt="star"/>
-    )
-}
+// const Star = () => {
+//     return (
+//       <img src={star} alt="star"/>
+//     )
+// }
 
-export default Star
+// export default Star

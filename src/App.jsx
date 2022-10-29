@@ -1,53 +1,90 @@
-import Testimonials from './components/Testimonials';
+
+import React, { useEffect, useState } from "react";
+
 import "./App.css"
-import {BrowserRouter, Route , Routes } from "react-router-dom"
-import Home from "./pages/home"
-import Login from "./pages/login"
-import Signup from "./pages/signup"
-import Header from "./components/Header"
 
-const App = () => {
+function App() {
+    const [timer, setTimer] = useState(0);
+    const [control, setControl] = useState("stop");
+    const [show, setShow] = useState("");
 
+    useEffect(() => {
+        if (control === "running") {
   
-  return (
-    <BrowserRouter><div style={{padding: 10}}>
-      <Routes>
-        <Route path="/home" element={<Home/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/signup" element={<Signup/>}/>
-      </Routes>
-      <Header/>
+          interval = setInterval(() => {
+                setTimer((timer) => timer + 1);
+                // setTimer(timer);
+            }, 1000);
+        }
+        else if (control === "stop") setTimer(0);
 
-      <Testimonials 
-      image="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&w=800" 
-      name="Thomas"
-      lastName="Shelby" 
-      content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. "
-      star={[0,1,]}
-      />
+        toHHMMSS(timer);
+        return () => {
+          clearInterval(interval)
+        }
+    }, [timer, control]);
 
-      <Testimonials 
-      image="http://pm1.narvii.com/7797/a1654cfb8bb7e9af28415d5302131cf0b50c0304r1-592-592v2_uhq.jpg" 
-      name="Urabe"
-      lastName="Mikoto" 
-      content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. "
-      star={[0,1,2,3,4]}
-      />
+    const toHHMMSS = (sec) => {
+        let sec_num = parseInt(sec, 10);
+        let hours = Math.floor(sec_num / 3600);
+        let minutes = Math.floor((sec_num - hours * 3600) / 60);
+        let seconds = sec_num - hours * 3600 - minutes * 60;
 
-      <Testimonials 
-      image="https://i.pinimg.com/736x/d2/39/f3/d239f304b6a5f287d9cd5c7a2fd6a0b9.jpg"
-      name="Giorno"
-      lastName="Giovanna" 
-      content="Giorno GIOVANNA
-      en All that will survive is the reality of this world. Righteous actions born from reality will never be annihilated. Bucciarati is dead, and so are Abbacchio and Narancia. But their actions and their wills have not been annihilated. They are the ones who gave me this Arrow."
-      star={[0,1,2,3,4]}
-      />
-    </div>
-    </BrowserRouter>
-  )
+        if (hours < 10) {
+            hours = "0" + hours;
+        }
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+        setShow(hours + ":" + minutes + ":" + seconds);
+    };
+
+    return (
+        <div className="body">
+            <h1 className="title">Stopwatch</h1>
+            <div className="section">
+                {show}
+                <button
+                    className="button"
+                    onClick={() => {
+                        setControl("running");
+                    }}
+                >
+                    start
+                </button>
+            </div>
+            <div className="res">
+                <button
+                    className="reset"
+                    onClick={() => {
+                        setControl("stop");
+                        setTimer(0);
+                        // setControl("running");
+                    }}
+                >
+                    reset
+                </button>
+                <button
+                    className="stop"
+                    onClick={() => {
+                        setControl("pause");
+                        // setControl("running");
+                        if (setControl == "pause") {
+                            setControl("running")
+                        }
+                    }}
+                >
+                    stop
+                </button>
+            </div>
+        </div>
+    );
 }
+export default App;
 
-export default App
 
 
 
